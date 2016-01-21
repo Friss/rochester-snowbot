@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #  -*- coding: utf-8 -*-
 # Copyright (c) 2015–2016 Molly White
+# Modified to work for Rochester NY by Zachary Friss
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +35,7 @@ sys.setdefaultencoding('utf-8')
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-url = "https://api.forecast.io/forecast/{}/42.3587,-71.0567?exclude=currently,minutely,hourly," \
+url = "https://api.forecast.io/forecast/{}/43.1567499,-77.612462?exclude=currently,minutely,hourly," \
       "alerts,flags".format(FORECAST_KEY)
 auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
 auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
@@ -152,11 +153,11 @@ def make_sentences(diff):
     for t in sorted(diff.keys()):
         if "old" in diff[t]:
             old_range = make_range(diff[t]["old"]["min"], diff[t]["old"]["max"])
-            new_range = make_range(diff[t]["new"]["min"], diff[t]["new"]["max"]) 
+            new_range = make_range(diff[t]["new"]["min"], diff[t]["new"]["max"])
             info.append(changed_text.format(diff[t]["date_str"], new_range, old_range))
         else:
             if diff[t]["new"]["max"] != 0:
-                new_range = make_range(diff[t]["new"]["min"], diff[t]["new"]["max"]) 
+                new_range = make_range(diff[t]["new"]["min"], diff[t]["new"]["max"])
                 info.append(new_text.format(diff[t]["date_str"], new_range))
     return info
 
@@ -168,7 +169,7 @@ def make_range(min, max):
     elif min == 0:
         return "<{}".format(max)
     else:
-        return "{}–{}".format(min, max) 
+        return "{}–{}".format(min, max)
 
 
 def form_tweets(sentences):
